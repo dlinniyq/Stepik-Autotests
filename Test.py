@@ -22,6 +22,6 @@ try:
     browser.find_element(By.CSS_SELECTOR, "#solve").click()
 finally:
     # ожидание чтобы визуально оценить результаты прохождения скрипта
-    time.sleep(8)
+    time.sleep(10)
     # закрываем браузер после всех манипуляций
     browser.quit()
