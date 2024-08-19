@@ -1,27 +1,47 @@
+import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-from math import *
-import os
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.ie.webdriver import WebDriver
-from selenium.webdriver.support.wait import WebDriverWait
 
-try:
-    browser = webdriver.Chrome()
-    link = "http://suninjuly.github.io/explicit_wait2.html"
-    browser.get(link)
+browser = webdriver.Chrome()
+link_1 = "http://suninjuly.github.io/registration1.html"
+link_2 = "http://suninjuly.github.io/registration2.html"
 
-    price = WebDriverWait(browser, 12).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "#price" ), "$100" ))
-    browser.find_element(By.CSS_SELECTOR, "#book").click()
+class TestAbs(unittest.TestCase):
 
-    x_text = browser.find_element(By.CSS_SELECTOR, "#input_value")
-    x = x_text.text
-    y = log(abs(12*sin(int(x))))
-    browser.find_element(By.CSS_SELECTOR, "#answer").send_keys(y)
-    browser.find_element(By.CSS_SELECTOR, "#solve").click()
-finally:
-    # ожидание чтобы визуально оценить результаты прохождения скрипта
-    time.sleep(10)
-    # закрываем браузер после всех манипуляций
-    browser.quit()
+    def test_1(self):
+        browser.get(link_1)
+        first_name = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.first")
+        first_name.send_keys("Nikita")
+
+        last_name = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.second")
+        last_name.send_keys("Bulgakov")
+
+        email = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.third")
+        email.send_keys("123@ya.ru")
+
+        browser.find_element(By.CSS_SELECTOR, ".btn.btn-default").click()
+
+        welcome_text_elt = browser.find_element(By.TAG_NAME, "h1")
+        welcome_text = welcome_text_elt.text
+        self.assertEqual("Congratulations! You have successfully registered!", welcome_text, "Ошибка в тесте №1")
+
+    def test_2(self):
+        browser.get(link_2)
+        first_name = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.first")
+        first_name.send_keys("Nikita")
+
+        last_name = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.second")
+        last_name.send_keys("Bulgakov")
+
+        email = browser.find_element(By.CSS_SELECTOR, ".first_block .form-control.third")
+        email.send_keys("123@ya.ru")
+
+        browser.find_element(By.CSS_SELECTOR, ".btn.btn-default").click()
+
+        welcome_text_elt = browser.find_element(By.TAG_NAME, "h1")
+        welcome_text = welcome_text_elt.text
+        self.assertEqual("Congratulations! You have successfully registered!", welcome_text, "Ошибка в тесте №2")
+
+if __name__ == "__main__":
+    unittest.main()
